@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A Little Something for You ❤️</title>
+
+    <style>
+        /* =========================
+           1. GENERAL PAGE DESIGN
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            color: #5c3542;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: #fffafd;
+            padding: 30px 22px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(160, 70, 100, 0.15);
+            margin-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            color: #d94f78;
+        }
+
+        h1 {
+            font-size: 30px;
+        }
+
+        p {
+            line-height: 1.7;
+            color: #6c4b56;
+        }
+
+        .heart {
+            color: #ff6b91;
+        }
+
+        .big-heart {
+            font-size: 55px;
+            margin: 10px;
+        }
+
+        /* =========================
+           2. BUTTONS
+        ========================= */
+
+        button {
+            border: none;
+            border-radius: 30px;
+            padding: 13px 22px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:focus-visible {
+            outline: 3px solid #a82f58;
+            outline-offset: 3px;
+        }
+
+        .primary-btn {
+            background: #e75480;
+            color: white;
+        }
+
+        .secondary-btn {
+            background: #ffe0e9;
+            color: #a83d60;
+        }
+
+        .back-btn {
+            background: #f5e8ed;
+            color: #805263;
+        }
+
+        /* =========================
+           3. PAGE NAVIGATION
+        ========================= */
+
+        .page {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .navigation button {
+            font-size: 13px;
+            padding: 10px 14px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 7px;
+            background: #ffd5e1;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 25%;
+            background: #e75480;
+            transition: width 0.3s;
+        }
+
+        /* =========================
+           4. LETTER
+        ========================= */
+
+        .letter {
+            background: #fff0f5;
+            border: 1px dashed #e99bb4;
+            padding: 22px;
+            border-radius: 18px;
+            text-align: left;
+            white-space: pre-line;
+            line-height: 1.9;
+        }
+
+        .letter-signature {
+            text-align: right;
+            color: #d94f78;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* =========================
+           5. MEMORY SCRAPBOOK
+        ========================= */
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .memory {
+            background: #fff0f5;
+            border-radius: 15px;
+            padding: 12px;
+            border: 1px solid #f8d0dc;
+        }
+
+        .memory-photo {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 12px;
+            background: #ffe0e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            overflow: hidden;
+        }
+
+        .memory-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .memory h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .memory p {
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           6. VOUCHERS
+        ========================= */
+
+        .voucher {
+            background: #fff0f5;
+            border: 2px dashed #e99bb4;
+            border-radius: 18px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .voucher h3 {
+            margin-top: 5px;
+        }
+
+        .voucher-icon {
+            font-size: 35px;
+        }
+
+        .voucher-details {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 12px;
+        }
+
+        .voucher-details.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* =========================
+           7. FLOATING HEARTS
+        ========================= */
+
+        .floating-heart {
+            position: fixed;
+            bottom: -30px;
+            color: #ff7fa3;
+            font-size: 20px;
+            pointer-events: none;
+            animation: floatUp 5s linear forwards;
+            z-index: -1;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================
+           8. MOBILE RESPONSIVENESS
+        ========================= */
+
+        @media (max-width: 420px) {
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                margin: 15px auto;
+            }
+
+            .card {
+                padding: 25px 16px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .memory-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation button {
+                padding: 9px 11px;
+            }
+        }
+
+        /* Respect reduced-motion settings */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <!-- =========================
+             PAGE 1: WELCOME
+        ========================== -->
+
+        <section class="page active card" id="welcome">
+
+            <div class="big-heart">💗</div>
+
+            <h1>A Little Something for You</h1>
+
+            <p>
+                Hi, Kas. I made this little corner for you.
+                There's no pressure to do anything or reply.
+                I just wanted to share a few things with you.
+            </p>
+
+            <p>
+                Whenever you're ready, you can take a look.
+            </p>
+
+            <button class="primary-btn" onclick="showPage('letter')">
+                Open My Letter 💌
+            </button>
+
+            <br>
+
+            <button class="secondary-btn" onclick="showPage('memories')">
+                Maybe Later
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             PAGE 2: PERSONAL LETTER
+        ========================== -->
+
+        <section class="page card" id="letter">
+
+            <div class="big-heart">💌</div>
+
+            <h1>A Letter for You</h1>
+
+            <p>
+                These are a few things I wanted to say
+                from my heart.
+            </p>
+
+            <div class="letter" id="letterText">
+Hi, Kas.
+
+I know things between us haven't been easy, and I know that saying sorry doesn't automatically make everything okay.
+
+I'm sorry for the ways I hurt you and for the things I should have handled differently.
+
+I still care about you, and I appreciate the moments we've shared. I don't want to pretend that everything can go back to how it was just because I miss you.
+
+I'm trying to learn from my mistakes and become someone who can show care through actions, not just words.
+
+You don't owe me a response, forgiveness, or another chance. I respect your feelings and whatever time you need.
+
+I just wanted you to know that I'm grateful for you and for the memories we've made.
+
+I hope you're taking care of yourself.
+
+            </div>
+
+            <div class="letter-signature">
+                With care,<br>
+                Lester ❤️
+            </div>
+
+            <button class="primary-btn" onclick="showPage('memories')">
+                Our Little Memories 📸
+            </button>
+
+            <br>
+
+            <button class="back-btn" onclick="showPage('welcome')">
+                ← Back
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             PAGE 3: MEMORY SCRAPBOOK
+        ========================== -->
+
+        <section class="page card" id="memories">
+
+            <div class="big-heart">📸</div>
+
+            <h1>Little Memories</h1>
+
+            <p>
+                A few little moments that mean something to me.
+            </p>
+
+            <div class="memory-grid">
+
+                <!-- MEMORY 1 -->
+
+                <div class="memory">
+
+                    <div class="memory-photo">
+                        🌷
+                    </div>
+
+                    <h3>That Special Moment</h3>
+
+                    <p>
+                        One of those little moments
+                        that still makes me smile.
+                    </p>
+
+                </div>
+
+
+                <!-- MEMORY 2 -->
+
+                <div class="memory">
+
+                    <div class="memory-photo">
+                        🧸
+                    </div>
+
+                    <h3>Our Little Conversations</h3>
+
+                    <p>
+                        Even the simplest conversations
+                        became memories I treasure.
+                    </p>
+
+                </div>
+
+
+                <!-- MEMORY 3 -->
+
+                <div class="memory">
+
+                    <div class="memory-photo">
+                        🌙
+                    </div>
+
+                    <h3>Late-Night Moments</h3>
+
+                    <p>
+                        The little talks and moments
+                        that made ordinary nights special.
+                    </p>
+
+                </div>
+
+
+                <!-- MEMORY 4 -->
+
+                <div class="memory">
+
+                    <div class="memory-photo">
+                        💗
+                    </div>
+
+                    <h3>Something I'll Remember</h3>
+
+                    <p>
+                        A memory that will always
+                        have a special place in my heart.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <p>
+                These are just little pieces of a story
+                that means a lot to me.
+            </p>
+
+            <button class="primary-btn" onclick="showPage('vouchers')">
+                A Little Surprise 🎁
+            </button>
+
+            <br>
+
+            <button class="back-btn" onclick="showPage('letter')">
+                ← Back to Letter
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             PAGE 4: VOUCHERS
+        ========================== -->
+
+        <section class="page card" id="vouchers">
+
+            <div class="big-heart">🎁</div>
+
+            <h1>A Little Surprise</h1>
+
+            <p>
+                Just a few little offers from me.
+                You can choose one, all, or none.
+                There's no pressure.
+            </p>
+
+
+            <!-- VOUCHER 1 -->
+
+            <div class="voucher">
+
+                <div class="voucher-icon">💌</div>
+
+                <h3>A Handwritten Letter</h3>
+
+                <p>
+                    A letter made just for you,
+                    with words I want you to keep.
+                </p>
+
+                <button class="secondary-btn"
+                    onclick="revealVoucher('voucher1')">
+                    Open Voucher
+                </button>
+
+                <div class="voucher-details" id="voucher1">
+
+                    <h3>Redeem for a Letter 💗</h3>
+
+                    <p>
+                        Whenever you want one,
+                        I'll write you something
+                        personal and heartfelt.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- VOUCHER 2 -->
+
+            <div class="voucher">
+
+                <div class="voucher-icon">🎵</div>
+
+                <h3>A Playlist Just for You</h3>
+
+                <p>
+                    Songs that remind me of you
+                    and little moments we've shared.
+                </p>
+
+                <button class="secondary-btn"
+                    onclick="revealVoucher('voucher2')">
+                    Open Voucher
+                </button>
+
+                <div class="voucher-details" id="voucher2">
+
+                    <h3>Your Little Playlist 🎶</h3>
+
+                    <p>
+                        I'll make you a playlist
+                        filled with songs chosen
+                        especially for you.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- VOUCHER 3 -->
+
+            <div class="voucher">
+
+                <div class="voucher-icon">☕</div>
+
+                <h3>A Little Time Together</h3>
+
+                <p>
+                    A chance to spend some time together,
+                    whenever we're both comfortable.
+                </p>
+
+                <button class="secondary-btn"
+                    onclick="revealVoucher('voucher3')">
+                    Open Voucher
+                </button>
+
+                <div class="voucher-details" id="voucher3">
+
+                    <h3>Our Little Moment ☕</h3>
+
+                    <p>
+                        We can have a call,
+                        play a game, or simply talk
+                        if and when you feel like it.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- VOUCHER 4 -->
+
+            <div class="voucher">
+
+                <div class="voucher-icon">🎀</div>
+
+                <h3>A Little Surprise</h3>
+
+                <p>
+                    Something small and thoughtful,
+                    chosen just for you.
+                </p>
+
+                <button class="secondary-btn"
+                    onclick="revealVoucher('voucher4')">
+                    Open Voucher
+                </button>
+
+                <div class="voucher-details" id="voucher4">
+
+                    <h3>A Surprise for You 🎀</h3>
+
+                    <p>
+                        I'll prepare a little surprise
+                        based on something you like.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <p>
+                Thank you for taking the time
+                to look through this little page.
+            </p>
+
+            <button class="primary-btn" onclick="showPage('ending')">
+                One Last Thing 💗
+            </button>
+
+            <br>
+
+            <button class="back-btn" onclick="showPage('memories')">
+                ← Back to Memories
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             PAGE 5: ENDING
+        ========================== -->
+
+        <section class="page card" id="ending">
+
+            <div class="big-heart">🌷</div>
+
+            <h1>Take Care, Kas</h1>
+
+            <p>
+                That's everything I wanted to share
+                with you for now.
+            </p>
+
+            <p>
+                I hope you have gentle days,
+                plenty of reasons to smile,
+                and people around you who make
+                you feel loved and appreciated.
+            </p>
+
+            <p>
+                Take your time. No pressure
+                to reply or decide anything.
+            </p>
+
+            <h2>Sending you a little love 💗</h2>
+
+            <button class="primary-btn" onclick="showPage('welcome')">
+                Read Again
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             NAVIGATION
+        ========================== -->
+
+        <nav class="navigation" aria-label="Website pages">
+
+            <button class="secondary-btn"
+                onclick="showPage('welcome')">
+                Home
+            </button>
+
+            <button class="secondary-btn"
+                onclick="showPage('letter')">
+                Letter
+            </button>
+
+            <button class="secondary-btn"
+                onclick="showPage('memories')">
+                Memories
+            </button>
+
+            <button class="secondary-btn"
+                onclick="showPage('vouchers')">
+                Surprise
+            </button>
+
+            <button class="secondary-btn"
+                onclick="showPage('ending')">
+                Ending
+            </button>
+
+        </nav>
+
+        <div class="progress" aria-label="Page progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <p style="font-size: 12px;">
+            Made with care by Lester ❤️
+        </p>
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        // =================================
+        // 1. SHOW DIFFERENT WEBSITE PAGES
+        // =================================
+
+        function showPage(pageId) {
+
+            // Get all pages
+            let pages = document.querySelectorAll(".page");
+
+            // Hide every page
+            pages.forEach(function(page) {
+                page.classList.remove("active");
+            });
+
+            // Show the selected page
+            let selectedPage = document.getElementById(pageId);
+
+            if (selectedPage) {
+                selectedPage.classList.add("active");
+            }
+
+            // Update the progress bar
+            updateProgress(pageId);
+
+            // Move to the top of the page
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+
+        // =================================
+        // 2. UPDATE THE PROGRESS BAR
+        // =================================
+
+        function updateProgress(pageId) {
+
+            let progressFill =
+                document.getElementById("progressFill");
+
+            let progressValues = {
+                welcome: "0%",
+                letter: "25%",
+                memories: "50%",
+                vouchers: "75%",
+                ending: "100%"
+            };
+
+            progressFill.style.width =
+                progressValues[pageId] || "0%";
+        }
+
+
+        // =================================
+        // 3. REVEAL A VOUCHER
+        // =================================
+
+        function revealVoucher(voucherId) {
+
+            // Find the selected voucher
+            let voucher =
+                document.getElementById(voucherId);
+
+            // Show or hide its message
+            voucher.classList.toggle("show");
+
+        }
+
+
+        // =================================
+        // 4. FLOATING HEART ANIMATION
+        // =================================
+
+        function createHeart() {
+
+            let heart = document.createElement("div");
+
+            heart.classList.add("floating-heart");
+
+            heart.textContent = "♥";
+
+            // Random horizontal position
+            heart.style.left =
+                Math.random() * 100 + "vw";
+
+            // Random heart size
+            heart.style.fontSize =
+                (15 + Math.random() * 20) + "px";
+
+            document.body.appendChild(heart);
+
+            // Remove heart after animation
+            setTimeout(function() {
+                heart.remove();
+            }, 5000);
+
+        }
+
+
+        // Create a heart every 900 milliseconds
+        // Remove this line if you don't want animations.
+
+        let heartTimer = setInterval(createHeart, 900);
+
+
+        // =================================
+        // 5. INITIAL PAGE SETUP
+        // =================================
+
+        updateProgress("welcome");
+
+    </script>
+
+</body>
+</html>
+
